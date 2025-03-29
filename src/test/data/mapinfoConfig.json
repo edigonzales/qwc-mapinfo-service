@@ -1,0 +1,7 @@
+{
+  "$schema": "https://github.com/qwc-services/qwc-elevation-service/raw/master/schemas/qwc-mapinfo-service.json",
+  "service": "mapinfo",
+  "config": {
+    "dburl": "jdbc:h2:./src/test/data/hoheitsgrenzen"
+  }
+}

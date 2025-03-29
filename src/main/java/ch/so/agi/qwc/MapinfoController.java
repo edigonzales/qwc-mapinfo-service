@@ -1,18 +1,13 @@
 package ch.so.agi.qwc;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,12 +19,10 @@ import jakarta.servlet.http.HttpServletRequest;
 public class MapinfoController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-//    @Autowired
-//    private JdbcTemplate jdbcTemplate;
-    private final JdbcTemplate jdbcTemplate;
+    private final MapinfoService mapinfoService;
     
-    public MapinfoController(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public MapinfoController(MapinfoService mapinfoService) {
+        this.mapinfoService = mapinfoService;
     }
 
     @GetMapping("/ping")
@@ -47,26 +40,22 @@ public class MapinfoController {
     }    
     
     @GetMapping("/")
-    public String getInfo(@RequestParam(name = "pos", required = true) String pos, 
+    public ResponseEntity<?> getInfo(@RequestParam(name = "pos", required = true) String pos, 
             @RequestParam(name = "crs", required = true) String crs) {
         
         String[] posArray = pos.split(",");
         double x = Double.valueOf(posArray[0]);
         double y = Double.valueOf(posArray[1]);
+        String[] crsArray = crs.split(":");
+        String crsString = crsArray[1];
         
-        var foo = jdbcTemplate.query("SELECT * FROM PUBLIC.HOHEITSGRENZEN_GEMEINDEGRENZE LIMIT 1", new RowMapper<String>() {
+        List<String> info = mapinfoService.getInfo(x, y, crsString);
 
-            @Override
-            public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-                var bar = rs.getString(3);
-                System.out.println(bar);
-                return bar;
-            }
-            
-        });
-        
-        return "foo";
-    }
-    
+        // Komische Response-Struktur: List of List?! 
+        if (info != null) {
+            return ResponseEntity.ok(Map.of("results", List.of(info)));
+        } else {
+            return ResponseEntity.ok(Map.of("results", new ArrayList<String>()));
+        } 
+    }    
 }
