@@ -7,4 +7,3 @@ java -jar /Users/stefan/apps/ili2h2gis-5.2.2/ili2h2gis-5.2.2.jar --dbfile hoheit
 ## todo
 
 - testing
-- test h2 database mit 2 Gemeinden und WGS84 crs. Sonst kann nicht transformiert werden.
