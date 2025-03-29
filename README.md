@@ -7,3 +7,4 @@ java -jar /Users/stefan/apps/ili2h2gis-5.2.2/ili2h2gis-5.2.2.jar --dbfile hoheit
 ## todo
 
 - testing
+- outsource RuntimeConfig
