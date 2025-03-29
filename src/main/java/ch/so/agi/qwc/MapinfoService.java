@@ -19,17 +19,21 @@ public class MapinfoService {
     }
 
     public List<String> getInfo(double x, double y, String crs) {
-        String stmt = "SELECT "
-                + "gemeindename "
-                + "FROM "
-                + "PUBLIC.HOHEITSGRENZEN_GEMEINDEGRENZE "
-                + "WHERE ST_Intersects(geometrie, ST_Transform(ST_SetSRID(ST_MakePoint(?, ?), ?), 2056))";
+        String stmt = """
+                SELECT
+                    gemeindename
+                FROM 
+                    PUBLIC.HOHEITSGRENZEN_GEMEINDEGRENZE
+                WHERE 
+                    ST_Intersects(geometrie, ST_Transform(ST_SetSRID(ST_MakePoint(?, ?), ?), 2056))
+                """;
+                
         try {
             String gemeinde = jdbcTemplate.queryForObject(stmt, String.class, x, y, crs);       
             // Ich verstehe den Response-Struktur nicht so wirklich. List of List?
             return List.of("Gemeinde", gemeinde);                
         } catch (EmptyResultDataAccessException e) {
-            log.warn("no record found");
+            log.warn("no record found: x={}, y={}, crs={}", x, y, crs);
             return null;
         }
     }

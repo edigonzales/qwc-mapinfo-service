@@ -323,3 +323,33 @@ Caused by: org.cts.crs.CRSException: Registry 'epsg' contains no parameter for [
 	at org.cts.CRSFactory.getCRS(CRSFactory.java:93)
 	at org.h2gis.functions.spatial.crs.ST_Transform.ST_Transform(ST_Transform.java:101)
 	... 87 more
+2025-03-29 19:38:53 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT
+    GEMEINDENAME
+FROM
+    PUBLIC.HOHEITSGRENZEN_GEMEINDEGRENZE
+WHERE
+    WHERE[*] ST_INTERSECTS(GEOMETRIE, ST_TRANSFORM(ST_SETSRID(ST_MAKEPOINT(?, ?), ?), 2056))
+ "; expected "NOT, EXISTS, INTERSECTS, SELECT, FROM, WITH"; SQL statement:
+SELECT
+    gemeindename
+FROM
+    PUBLIC.HOHEITSGRENZEN_GEMEINDEGRENZE
+WHERE
+    WHERE ST_Intersects(geometrie, ST_Transform(ST_SetSRID(ST_MakePoint(?, ?), ?), 2056))
+ [42001-197]
+2025-03-29 19:39:36 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Syntax error in SQL statement "SELECT
+    GEMEINDENAME
+FROM
+    PUBLIC.HOHEITSGRENZEN_GEMEINDEGRENZE
+WHERE
+    WHERE[*] ST_INTERSECTS(GEOMETRIE, ST_TRANSFORM(ST_SETSRID(ST_MAKEPOINT(?, ?), ?), 2056));
+ "; expected "NOT, EXISTS, INTERSECTS, SELECT, FROM, WITH"; SQL statement:
+SELECT
+    gemeindename
+FROM
+    PUBLIC.HOHEITSGRENZEN_GEMEINDEGRENZE
+WHERE
+    WHERE ST_Intersects(geometrie, ST_Transform(ST_SetSRID(ST_MakePoint(?, ?), ?), 2056));
+ [42001-197]
