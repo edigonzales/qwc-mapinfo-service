@@ -24,8 +24,13 @@ import jakarta.servlet.http.HttpServletRequest;
 public class MapinfoController {
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+//    @Autowired
+//    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+    
+    public MapinfoController(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @GetMapping("/ping")
     public ResponseEntity<String> ping(@RequestHeader Map<String, String> headers, HttpServletRequest request) {
@@ -54,11 +59,12 @@ public class MapinfoController {
             @Override
             public String mapRow(ResultSet rs, int rowNum) throws SQLException {
 
-                return rs.getString("GEMEINDENAME");
+                var bar = rs.getString(3);
+                System.out.println(bar);
+                return bar;
             }
             
         });
-        System.out.println(foo);
         
         return "foo";
     }
