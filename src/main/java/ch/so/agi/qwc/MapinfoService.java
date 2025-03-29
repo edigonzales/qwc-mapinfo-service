@@ -29,7 +29,7 @@ public class MapinfoService {
             // Ich verstehe den Response-Struktur nicht so wirklich. List of List?
             return List.of("Gemeinde", gemeinde);                
         } catch (EmptyResultDataAccessException e) {
-            log.error("no record found");
+            log.warn("no record found");
             return null;
         }
     }
